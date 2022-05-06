@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import Message from './Message'
 import CloseBtn from '../img/cerrar.svg'
 
-const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpense}) => {
+const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpense, setEditExpense}) => {
   const [message, setMessage] = useState('')
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [category, setCategory] = useState('')
+  const [date, setDate] = useState('')
+  const [id, setId] = useState('')
 
   useEffect(() => {
     if(Object.keys(editExpense).length > 0) {
@@ -14,12 +16,15 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpens
       setName(editExpense.name)
       setQuantity(editExpense.quantity)
       setCategory(editExpense.category)
+      setId(editExpense.id)
+      setDate(editExpense.date)
     }
   }, [])
 
 
   const hideModal = () => {
     setAnimateModal(false)
+    setEditExpense({})
 
     setTimeout(() => {
       setModal(false)
@@ -38,7 +43,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpens
       return
     }
 
-    saveExpense({name, quantity, category})
+    saveExpense({name, quantity, category, id, date})
   }
 
   return (
@@ -56,7 +61,7 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpens
         onSubmit={handleSubmit}
         className={`formulario ${animateModal ? "animar": "cerrar"} `}
       >
-          <legend>New expense</legend>
+          <legend>{editExpense.name ? 'Edit Expense' : 'New Expense'}</legend>
 
           {message && <Message type="error">{message}</Message>}
 
@@ -100,7 +105,9 @@ const Modal = ({setModal, animateModal, setAnimateModal, saveExpense, editExpens
             </select>
           </div>
 
-          <input type="submit" value="Add expense"/>
+          <input
+            type="submit"
+            value={editExpense.name ? 'Save Changes' : 'New Expense'}/>
         </form>
     </div>
   )

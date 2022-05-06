@@ -12,7 +12,7 @@ import HobbieIcon from '../img/icono_ocio.svg'
 import HealthIcon from '../img/icono_salud.svg'
 import SubscriptionsIcon from '../img/icono_suscripciones.svg'
 
-const Expense = ({expense, setEditExpense}) => {
+const Expense = ({expense, setEditExpense, deleteExpense}) => {
   const {id, name, quantity, category, date } = expense
 
   const iconsDictionary = {
@@ -28,15 +28,22 @@ const Expense = ({expense, setEditExpense}) => {
   const leadingActions = () => (
     //edit
     <LeadingActions>
-      <SwipeAction onClick={() => setEditExpense(expense)}>Edit</SwipeAction>
+      <SwipeAction onClick={() => setEditExpense(expense)}>
+        Edit
+      </SwipeAction>
     </LeadingActions>
   )
 
 
   const trailingActions = () => (
-    //edit
+    //delete
     <TrailingActions>
-      <SwipeAction onClick={() => console.log('delete')}>Delete</SwipeAction>
+      <SwipeAction
+        onClick={() => deleteExpense(id)}
+        destructive={true}
+      >
+        Delete
+      </SwipeAction>
     </TrailingActions>
   )
 
